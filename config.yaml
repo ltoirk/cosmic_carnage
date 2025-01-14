@@ -1,0 +1,123 @@
+notes: "Pytorch scratch multi 2-agent, fleet_size=4 training with PPO"
+# notes: "sb3 single-agent, fleet_size=1 training with PPO"
+wandb_mode: "online" ### online - logs to wandb; or offline - debug mode, doesnt log to wandb
+
+num_agents: 3                    # number of agents
+fleet_size: 4                     # number of ships in the fleet
+asteroid_count: 50                       # number of asteroids
+boost_count: 5                          # number of boosts
+coin_count: 20                          # number of coins
+img_obs: false                      # use image observation, requires mode to be 'human', !!!!!!! Under construction !!!!!!!
+mode: "human" #none, human
+
+has_continuous_action_space: true  # continuous action space; else discrete
+
+max_ep_len: 100                   # max timesteps in one episode
+max_training_timesteps: 30000 #3000000    # break training loop if timesteps > max_training_timesteps
+
+print_freq: 1000                  # print avg reward in the interval (in num timesteps)
+log_freq: 2000                     # log avg reward in the interval (in num timesteps)
+save_model_freq: 20000            # save model frequency (in num timesteps)
+
+action_std: 0.6                    # starting std for action distribution (Multivariate Normal)
+action_std_decay_rate: 0.05        # linearly decay action_std (action_std = action_std - action_std_decay_rate)
+min_action_std: 0.1                # minimum action_std (stop decay after action_std <= min_action_std)
+action_std_decay_freq: 250000      # action_std decay frequency (in num timesteps)
+#####################################################
+
+## Note : print/log frequencies should be > than max_ep_len
+
+################ PPO hyperparameters ################
+update_timestep: 2000 #4000              # update policy every n timesteps
+K_epochs: 100                      # update policy for K epochs in one PPO update
+
+eps_clip: 0.2                      # clip parameter for PPO
+gamma: 0.99                        # discount factor
+
+lr_actor: 0.0005                   # learning rate for actor network
+lr_critic: 0.0005                  # learning rate for critic network
+
+random_seed: 0
+
+obs_config:
+  enemy_ships: 3
+  asteroids: 2
+  boosts: 1
+  coins: 1
+  bullets: 3
+
+
+
+
+
+################## ENVIRONMENT Hyperparameters ##################
+
+SEED: 42
+
+ATTACKER_TYPE: 0
+SPEEDSTER_TYPE: 1
+DEFENDER_TYPE: 2
+SUPPORT_TYPE: 3
+WORLD_SIZE: 800
+OUTSIDE_WORLD_EDGE: 2400.0 ### WORLD_SIZE * 3
+
+ASTEROID_LIFETIME: 5000
+BOOST_DURATION: 100
+ASTEROID_DAMAGE: 20
+HEAL_RANGE: 205
+
+ASTEROID_SCALE: 50
+SHIP_SCALE: 50
+BULLET_SCALE: 9
+
+AGENT_REWARD:
+  hit: 20
+  asteroid_hit: 5
+  kill: 200
+  coin: 35
+  being_hit: -6
+  being_killed: -135
+  ally_died: -42
+  heal_ally: 10
+  boost: 25
+  win: 200
+
+MOVEMENT_FACTOR: 5
+rotation_factor: 10  # 10 degrees
+BULLET_SPEED: 2
+SHIP_TYPE_STATS:
+  0: # ATTACKER_TYPE
+    attack: 15
+    attack_rate: 5
+    defense: 5
+    speed: 3
+    health: 75
+  1: # SPEEDSTER_TYPE
+    attack: 10
+    attack_rate: 5
+    defense: 5
+    speed: 5
+    health: 65
+  2: # DEFENDER_TYPE
+    attack: 10
+    attack_rate: 8
+    defense: 15
+    speed: 2
+    health: 100
+  3: # SUPPORT_TYPE
+    attack: 10
+    attack_rate: 8
+    defense: 10
+    speed: 2
+    health: 80
+    heal_every: 15
+    heal_strength: 1
+
+ATTACK_BOOST: 0.5  # 50 percent
+DEFENSE_BOOST: 0.5
+HEALTH_BOOST: 50
+
+
+
+
+

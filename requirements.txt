@@ -1,0 +1,10 @@
+omegaconf
+wandb
+gymnasium
+pygame
+numpy
+torch
+torchvision
+torchaudio
+
+stable-baselines3
